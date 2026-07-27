@@ -1,0 +1,222 @@
+// PulmoHTapAlgérie — Prisma Schema
+// Generator + Datasource
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────
+
+enum AccountType {
+  PATIENT
+  DOCTOR
+  SPECIALIST
+  LABORATORY
+  PHARMACY
+  PSYCHOLOGIST
+  RESEARCHER
+  CLINIC_ADMIN
+  PLATFORM_ADMIN
+}
+
+enum AccountStatus {
+  PENDING      // بانتظار تفعيل البريد
+  ACTIVE       // حساب مفعّل
+  SUSPENDED    // موقوف من الإدارة
+  DELETED      // محذوف (soft delete)
+}
+
+enum SessionStatus {
+  ACTIVE
+  REVOKED
+  EXPIRED
+}
+
+enum VerificationStatus {
+  UNVERIFIED
+  PENDING_REVIEW   // وثائق مرفوعة، بانتظار المراجعة
+  VERIFIED
+  REJECTED
+}
+
+enum Wilaya {
+  ADRAR
+  CHLEF
+  LAGHOUAT
+  OUM_EL_BOUAGHI
+  BATNA
+  BEJAIA
+  BISKRA
+  BECHAR
+  BLIDA
+  BOUIRA
+  TAMANRASSET
+  TEBESSA
+  TLEMCEN
+  TIARET
+  TIZI_OUZOU
+  ALGER
+  DJELFA
+  JIJEL
+  SETIF
+  SAIDA
+  SKIKDA
+  SIDI_BEL_ABBES
+  ANNABA
+  GUELMA
+  CONSTANTINE
+  MEDEA
+  MOSTAGANEM
+  MSILA
+  MASCARA
+  OUARGLA
+  ORAN
+  EL_BAYADH
+  ILLIZI
+  BORDJ_BOU_ARRERIDJ
+  BOUMERDES
+  EL_TARF
+  TINDOUF
+  TISSEMSILT
+  EL_OUED
+  KHENCHELA
+  SOUK_AHRAS
+  TIPAZA
+  MILA
+  AIN_DEFLA
+  NAAMA
+  AIN_TEMOUCHENT
+  GHARDAIA
+  RELIZANE
+  TIMIMOUN
+  BORDJ_BADJI_MOKHTAR
+  OULED_DJELLAL
+  BENI_ABBES
+  IN_SALAH
+  IN_GUEZZAM
+  TOUGGOURT
+  DJANET
+  EL_MGHAIR
+  EL_MENIAA
+}
+
+// ─────────────────────────────────────────────
+// MODELS
+// ─────────────────────────────────────────────
+
+model User {
+  id           String        @id @default(cuid())
+  fullName     String
+  email        String        @unique
+  phone        String        @unique
+  passwordHash String
+  accountType  AccountType
+  status       AccountStatus @default(PENDING)
+  createdAt    DateTime      @default(now())
+  lastLoginAt  DateTime?
+
+  // Relations
+  profile              UserProfile?
+  sessions             Session[]
+  emailVerifications   EmailVerification[]
+  passwordResets       PasswordReset[]
+  auditLogs            AuditLog[]
+  doctorVerification   DoctorVerification?
+
+  @@index([email])
+  @@index([phone])
+  @@index([accountType])
+  @@index([status])
+}
+
+model UserProfile {
+  id              String   @id @default(cuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  avatarUrl       String?
+  language        String   @default("ar")
+  country         String   @default("DZ")
+  wilaya          Wilaya?
+  address         String?
+  emergencyContact String?
+  privacySettings Json?    @default("{\"showEmail\": false, \"showPhone\": false}")
+  updatedAt       DateTime @updatedAt
+}
+
+model Session {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  refreshToken String        @unique
+  deviceInfo   String?
+  ipAddress    String?
+  userAgent    String?
+  status       SessionStatus @default(ACTIVE)
+  createdAt    DateTime      @default(now())
+  expiresAt    DateTime
+  lastUsedAt   DateTime      @default(now())
+
+  @@index([userId])
+  @@index([status])
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([token])
+}
+
+model PasswordReset {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([token])
+}
+
+// تحقق الهوية المهنية للأطباء والمختصين
+model DoctorVerification {
+  id              String             @id @default(cuid())
+  userId          String             @unique
+  user            User               @relation(fields: [userId], references: [id], onDelete: Cascade)
+  licenseNumber   String             // رقم رخصة مزاولة المهنة
+  specialty       String?            // التخصص
+  institution     String?            // المستشفى / المؤسسة
+  documentUrl     String?            // رابط وثيقة الترخيص (Supabase Storage مستقبلاً)
+  status          VerificationStatus @default(UNVERIFIED)
+  reviewedBy      String?            // ID مدير المنصة الذي راجع الطلب
+  reviewedAt      DateTime?
+  rejectionReason String?
+  submittedAt     DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  action    String   // LOGIN | LOGOUT | REGISTER | VERIFY_EMAIL | PASSWORD_RESET | FAILED_LOGIN | etc.
+  ipAddress String?
+  userAgent String?
+  metadata  Json?
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([action])
+  @@index([createdAt])
+}

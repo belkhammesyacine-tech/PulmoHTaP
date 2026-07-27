@@ -1,0 +1,16 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+
+# Environment files
+.env
+.env.local
+server/.env
+
+# Build outputs
+dist/
+build/
+
+# Prisma & temp
+*.log
+.DS_Store
