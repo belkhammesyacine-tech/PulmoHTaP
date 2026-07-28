@@ -145,7 +145,7 @@ model UserProfile {
   wilaya          Wilaya?
   address         String?
   emergencyContact String?
-  privacySettings Json?    @default("{\"showEmail\": false, \"showPhone\": false}")
+  privacySettings Json?
   updatedAt       DateTime @updatedAt
 }
 
