@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
+import AuthHero from '../../../core/components/AuthHero.jsx';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail]     = useState('');
@@ -25,11 +26,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-hero">
-        <div className="auth-hero__logo">🔑</div>
-        <h2 className="auth-hero__title">استعادة كلمة المرور</h2>
-        <p className="auth-hero__subtitle">سنرسل لك رابطاً آمناً لإعادة تعيين كلمة مرورك</p>
-      </div>
+      <AuthHero icon="🔑" title="استعادة كلمة المرور" subtitle="سنرسل لك رابطاً آمناً لإعادة تعيين كلمة مرورك" />
       <div className="auth-form-side">
         <div className="auth-card">
           {sent ? (

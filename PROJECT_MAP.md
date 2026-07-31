@@ -39,8 +39,12 @@ PulmoHTaP4/
 │           └── users/           (service, controller, routes)
 └── client/
     └── src/
-        ├── core/                (client.js, AuthContext, AppRouter)
+        ├── core/
+        │   ├── components/      (SiteHeader, SiteFooter, AuthHero, DashboardNav)
+        │   ├── constants/       (accountTypes, wilayas)
+        │   ├── client.js, AuthContext, AppRouter
         └── features/
+            ├── landing/         (LandingPage — صفحة رئيسية طبية RTL)
             └── auth/            (LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage, DashboardPage, ProfilePage, SessionsPage)
 ```
 
@@ -49,3 +53,8 @@ PulmoHTaP4/
 ## [ORPHANS & PENDING]
 - `[ ]` إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.
 - `[ ]` تفعيل رفع وثائق الأطباء (Doctor Verification file upload UI) عند بناء وحدة المطبّة المتقدمة.
+
+## [UI_DESIGN]
+- **الثيم**: Teal طبي (#0d9488) — glassmorphism — RTL عربي
+- **الصفحة الرئيسية** (`/`): Hero + شريط بحث سريع (ولاية/نوع حساب) + من نحن + أنواع الحسابات + إحصائيات + خدمات + Footer CTA
+- **المسارات**: `/` عامة | `/login` `/register` ضيف | `/dashboard` `/profile` `/sessions` محمية

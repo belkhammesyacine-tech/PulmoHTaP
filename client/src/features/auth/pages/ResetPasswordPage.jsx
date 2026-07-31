@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
+import AuthHero from '../../../core/components/AuthHero.jsx';
 
 export default function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -38,11 +39,7 @@ export default function ResetPasswordPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-hero">
-        <div className="auth-hero__logo">🔒</div>
-        <h2 className="auth-hero__title">تعيين كلمة مرور جديدة</h2>
-        <p className="auth-hero__subtitle">أدخل كلمة مرور قوية لحماية حسابك</p>
-      </div>
+      <AuthHero icon="🔒" title="تعيين كلمة مرور جديدة" subtitle="أدخل كلمة مرور قوية لحماية حسابك" />
       <div className="auth-form-side">
         <div className="auth-card">
           {success ? (

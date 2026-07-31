@@ -1,23 +1,15 @@
 // features/auth/pages/RegisterPage.jsx
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
-
-const ACCOUNT_TYPES = [
-  { value: 'PATIENT',        label: '🤒 مريض' },
-  { value: 'DOCTOR',         label: '👨‍⚕️ طبيب عام' },
-  { value: 'SPECIALIST',     label: '🩺 طبيب مختص' },
-  { value: 'LABORATORY',     label: '🔬 مخبر' },
-  { value: 'PHARMACY',       label: '💊 صيدلية' },
-  { value: 'PSYCHOLOGIST',   label: '🧠 أخصائي نفسي' },
-  { value: 'RESEARCHER',     label: '📚 باحث' },
-  { value: 'CLINIC_ADMIN',   label: '🏥 مسؤول مؤسسة صحية' },
-];
+import AuthHero from '../../../core/components/AuthHero.jsx';
+import { ACCOUNT_TYPES } from '../../../core/constants/accountTypes.js';
 
 export default function RegisterPage() {
-  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
-    fullName: '', email: '', phone: '', password: '', accountType: '',
+    fullName: '', email: '', phone: '', password: '',
+    accountType: searchParams.get('accountType') || '',
   });
   const [errors, setErrors]   = useState({});
   const [apiError, setApiError] = useState('');
@@ -107,7 +99,7 @@ export default function RegisterPage() {
                 value={form.accountType} onChange={onChange}>
                 <option value="">-- اختر نوع حسابك --</option>
                 {ACCOUNT_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>{t.label}</option>
+                  <option key={t.value} value={t.value}>{t.icon} {t.label}</option>
                 ))}
               </select>
               {errors.accountType && <p className="form-error">⚠️ {errors.accountType}</p>}
@@ -139,12 +131,3 @@ function Field({ label, id, name, type, placeholder, value, onChange, error, aut
   );
 }
 
-function AuthHero() {
-  return (
-    <div className="auth-hero">
-      <div className="auth-hero__logo">🫁</div>
-      <h2 className="auth-hero__title">PulmoHTapAlgérie</h2>
-      <p className="auth-hero__subtitle">منصة متكاملة لمتابعة مرضى ارتفاع ضغط الدم الرئوي في الجزائر</p>
-    </div>
-  );
-}

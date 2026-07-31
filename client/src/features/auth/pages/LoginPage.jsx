@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../core/context/AuthContext.jsx';
+import AuthHero from '../../../core/components/AuthHero.jsx';
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -70,14 +71,3 @@ export default function LoginPage() {
   );
 }
 
-function AuthHero() {
-  return (
-    <div className="auth-hero">
-      <div className="auth-hero__logo">🫁</div>
-      <h2 className="auth-hero__title">PulmoHTapAlgérie</h2>
-      <p className="auth-hero__subtitle">
-        منصة متكاملة لمتابعة مرضى ارتفاع ضغط الدم الرئوي في الجزائر
-      </p>
-    </div>
-  );
-}

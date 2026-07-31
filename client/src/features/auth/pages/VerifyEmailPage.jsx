@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
+import AuthHero from '../../../core/components/AuthHero.jsx';
 
 export default function VerifyEmailPage() {
   const [searchParams] = useSearchParams();
@@ -30,15 +31,12 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-hero">
-        <div className="auth-hero__logo">🫁</div>
-        <h2 className="auth-hero__title">تفعيل الحساب</h2>
-      </div>
+      <AuthHero icon="🫁" title="تفعيل الحساب" subtitle="تأكيد بريدك الإلكتروني لتفعيل حسابك على PulmoHTapAlgérie" />
       <div className="auth-form-side">
         <div className="auth-card" style={{ textAlign: 'center' }}>
           {status === 'verifying' && (
             <>
-              <div className="spinner" style={{ width: 40, height: 40, margin: '0 auto 20px', borderColor: 'rgba(26,115,232,.2)', borderTopColor: '#1a73e8' }} />
+              <div className="spinner" style={{ width: 40, height: 40, margin: '0 auto 20px', borderColor: 'rgba(13,148,136,.2)', borderTopColor: '#0d9488' }} />
               <h2 className="auth-card__title">جاري التفعيل...</h2>
               <p className="auth-card__subtitle">يُرجى الانتظار لحظة أثناء التأكد من رابطك</p>
             </>

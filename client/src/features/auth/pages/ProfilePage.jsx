@@ -1,18 +1,9 @@
 // features/auth/pages/ProfilePage.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../../core/context/AuthContext.jsx';
 import { authApi } from '../api/auth.api.js';
-
-const WILAYAS = [
-  'ADRAR', 'CHLEF', 'LAGHOUAT', 'OUM_EL_BOUAGHI', 'BATNA', 'BEJAIA', 'BISKRA', 'BECHAR', 'BLIDA', 'BOUIRA',
-  'TAMANRASSET', 'TEBESSA', 'TLEMCEN', 'TIARET', 'TIZI_OUZOU', 'ALGER', 'DJELFA', 'JIJEL', 'SETIF', 'SAIDA',
-  'SKIKDA', 'SIDI_BEL_ABBES', 'ANNABA', 'GUELMA', 'CONSTANTINE', 'MEDEA', 'MOSTAGANEM', 'MSILA', 'MASCARA',
-  'OUARGLA', 'ORAN', 'EL_BAYADH', 'ILLIZI', 'BORDJ_BOU_ARRERIDJ', 'BOUMERDES', 'EL_TARF', 'TINDOUF', 'TISSEMSILT',
-  'EL_OUED', 'KHENCHELA', 'SOUK_AHRAS', 'TIPAZA', 'MILA', 'AIN_DEFLA', 'NAAMA', 'AIN_TEMOUCHENT', 'GHARDAIA',
-  'RELIZANE', 'TIMIMOUN', 'BORDJ_BADJI_MOKHTAR', 'OULED_DJELLAL', 'BENI_ABBES', 'IN_SALAH', 'IN_GUEZZAM',
-  'TOUGGOURT', 'DJANET', 'EL_MGHAIR', 'EL_MENIAA',
-];
+import DashboardNav from '../../../core/components/DashboardNav.jsx';
+import { WILAYAS } from '../../../core/constants/wilayas.js';
 
 export default function ProfilePage() {
   const { user, refreshUser } = useAuth();
@@ -80,12 +71,7 @@ export default function ProfilePage() {
 
   return (
     <div className="dashboard">
-      <nav className="dashboard-nav">
-        <Link to="/dashboard" className="nav-brand">
-          <span>←</span>
-          <span>العودة للوحة التحكم</span>
-        </Link>
-      </nav>
+      <DashboardNav backTo="/dashboard" backLabel="العودة للوحة التحكم" />
 
       <main className="dashboard-content">
         <div className="card">
