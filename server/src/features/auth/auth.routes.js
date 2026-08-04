@@ -9,12 +9,14 @@ import * as ctrl from './auth.controller.js';
 
 const router = Router();
 
-router.post('/register',        authLimiter, validate(registerSchema),        ctrl.register);
-router.get('/verify-email',                                                    ctrl.verifyEmail);
-router.post('/login',           authLimiter, validate(loginSchema),            ctrl.login);
-router.post('/refresh',                                                        ctrl.refresh);
-router.post('/logout',                                                         ctrl.logout);
-router.post('/forgot-password', authLimiter, validate(forgotPasswordSchema),   ctrl.forgotPassword);
-router.post('/reset-password',  authLimiter, validate(resetPasswordSchema),    ctrl.resetPassword);
+router.post('/register',             authLimiter, validate(registerSchema),       ctrl.register);
+router.get('/verify-email',                                                        ctrl.verifyEmail);
+router.post('/resend-verification',  authLimiter, validate(forgotPasswordSchema),  ctrl.resendVerification);
+router.post('/login',                authLimiter, validate(loginSchema),           ctrl.login);
+router.post('/refresh',                                                            ctrl.refresh);
+router.post('/logout',                                                             ctrl.logout);
+router.post('/forgot-password',      authLimiter, validate(forgotPasswordSchema),  ctrl.forgotPassword);
+router.post('/reset-password',       authLimiter, validate(resetPasswordSchema),   ctrl.resetPassword);
 
 export default router;
+

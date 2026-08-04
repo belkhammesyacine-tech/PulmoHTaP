@@ -10,19 +10,24 @@ export default function LoginPage() {
 
   const [form, setForm]     = useState({ email: '', password: '' });
   const [error, setError]   = useState('');
+  const [errorCode, setErrorCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [resendStatus, setResendStatus] = useState('');
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setErrorCode('');
+    setResendStatus('');
     setLoading(true);
     try {
       const user = await login(form);
       navigate('/dashboard');
     } catch (err) {
       setError(err.response?.data?.error ?? 'حدث خطأ، يُرجى المحاولة لاحقاً');
+      setErrorCode(err.response?.data?.code ?? '');
     } finally {
       setLoading(false);
     }
@@ -36,7 +41,27 @@ export default function LoginPage() {
           <h1 className="auth-card__title">مرحباً بعودتك 👋</h1>
           <p className="auth-card__subtitle">سجّل دخولك للوصول إلى منصة PulmoHTapAlgérie</p>
 
-          {error && <div className="alert alert-error">⚠️ {error}</div>}
+          {error && (
+            <div className="alert alert-error" style={{ marginBottom: 16 }}>
+              ⚠️ {error}
+              {errorCode === 'ACCOUNT_PENDING' && (
+                <div style={{ marginTop: 10 }}>
+                  <button type="button" className="btn-link" onClick={async () => {
+                    try {
+                      setResendStatus('جاري الإرسال...');
+                      const { authApi } = await import('../api/auth.api.js');
+                      await authApi.resendVerification({ email: form.email });
+                      setResendStatus('تم إرسال الرابط! تحقق من بريدك.');
+                    } catch {
+                      setResendStatus('حدث خطأ أثناء الإرسال.');
+                    }
+                  }}>
+                    {resendStatus || 'إعادة إرسال رابط التفعيل'}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
           <form onSubmit={onSubmit}>
             <div className="form-group">

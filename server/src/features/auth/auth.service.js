@@ -219,3 +219,31 @@ export async function resetPassword({ token, password }) {
   writeAuditLog('PASSWORD_RESET', record.userId, null);
   logger.info({ action: 'PASSWORD_RESET', userId: record.userId });
 }
+
+export async function resendVerification({ email }) {
+  const user = await prisma.user.findUnique({
+    where: { email },
+    select: { id: true, status: true },
+  });
+
+  // Silent — prevent email enumeration
+  if (!user || user.status !== 'PENDING') {
+    logger.warn({ action: 'RESEND_VERIFICATION_SKIP', email });
+    return;
+  }
+
+  // Invalidate previous verification tokens
+  await prisma.emailVerification.deleteMany({ where: { userId: user.id } });
+
+  const token = secureToken();
+  await prisma.emailVerification.create({
+    data: { userId: user.id, token, expiresAt: addHours(VERIFICATION_EXPIRES_HOURS) },
+  });
+
+  sendVerificationEmail(email, token).catch((e) =>
+    logger.error({ action: 'RESEND_VERIFICATION_EMAIL_FAILED', userId: user.id, err: e.message })
+  );
+
+  writeAuditLog('RESEND_VERIFICATION', user.id, { email });
+  logger.info({ action: 'RESEND_VERIFICATION', userId: user.id });
+}

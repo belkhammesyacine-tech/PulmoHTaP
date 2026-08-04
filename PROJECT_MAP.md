@@ -51,7 +51,7 @@ PulmoHTaP4/
 ---
 
 ## [ORPHANS & PENDING]
-- `[ ]` إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.
+- `[x]` ~~إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.~~ (مكتمل)
 - `[ ]` تفعيل رفع وثائق الأطباء (Doctor Verification file upload UI) عند بناء وحدة المطبّة المتقدمة.
 
 ## [UI_DESIGN]

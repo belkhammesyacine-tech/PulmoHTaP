@@ -25,7 +25,13 @@ function ProtectedRoute({ children }) {
 
 function GuestRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
-  if (loading) return null;
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+        <div className="spinner" style={{ width: 32, height: 32, borderColor: 'rgba(13,148,136,.3)', borderTopColor: '#0d9488' }} />
+      </div>
+    );
+  }
   return isAuthenticated ? <Navigate to="/dashboard" replace /> : children;
 }
 

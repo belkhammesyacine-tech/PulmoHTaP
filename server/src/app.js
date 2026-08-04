@@ -1,5 +1,6 @@
 // app.js — Express application setup (M6: Security hardening)
 import 'dotenv/config';
+import crypto from 'crypto';
 import express from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
@@ -18,6 +19,14 @@ app.use(cors({
   origin: process.env.CLIENT_URL ?? 'http://localhost:5173',
   credentials: true, // Required for HttpOnly cookies
 }));
+
+// ── IMP-4: Request Correlation ID ──────────────
+app.use((req, res, next) => {
+  const requestId = crypto.randomUUID();
+  req.requestId = requestId;
+  res.setHeader('X-Request-ID', requestId);
+  next();
+});
 
 // ── Parsing ────────────────────────────────────
 app.use(express.json({ limit: '10kb' }));

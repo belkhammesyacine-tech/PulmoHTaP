@@ -58,9 +58,31 @@ export default function VerifyEmailPage() {
               <div style={{ fontSize: 56, marginBottom: 16 }}>❌</div>
               <h2 className="auth-card__title">فشل التفعيل</h2>
               <p className="auth-card__subtitle" style={{ color: 'var(--color-danger)' }}>{message}</p>
-              <Link to="/login" className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto', marginTop: 20 }}>
-                العودة لتسجيل الدخول
-              </Link>
+              <div style={{ marginTop: 20 }}>
+                <button type="button" className="btn btn-primary" onClick={async () => {
+                  try {
+                    setMessage('جاري إرسال رابط جديد...');
+                    setStatus('verifying');
+                    const savedEmail = sessionStorage.getItem('registerEmail') || prompt('يُرجى إدخال بريدك الإلكتروني لإعادة الإرسال:');
+                    if (savedEmail) {
+                      await authApi.resendVerification({ email: savedEmail });
+                      setStatus('success');
+                      setMessage('تم إرسال رابط التفعيل بنجاح! تفقد بريدك.');
+                    } else {
+                      setStatus('error');
+                      setMessage('البريد الإلكتروني مطلوب لإعادة الإرسال.');
+                    }
+                  } catch {
+                    setStatus('error');
+                    setMessage('حدث خطأ أثناء إرسال الرابط.');
+                  }
+                }} style={{ display: 'inline-flex', width: 'auto', marginLeft: 10 }}>
+                  أعد إرسال الرابط
+                </button>
+                <Link to="/login" className="btn btn-outline" style={{ display: 'inline-flex', width: 'auto' }}>
+                  العودة لتسجيل الدخول
+                </Link>
+              </div>
             </>
           )}
         </div>

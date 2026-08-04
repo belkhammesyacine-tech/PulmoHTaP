@@ -42,6 +42,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await authApi.register(form);
+      sessionStorage.setItem('registerEmail', form.email);
       setSuccess(true);
     } catch (err) {
       setApiError(err.response?.data?.error ?? 'حدث خطأ، يُرجى المحاولة لاحقاً');
@@ -61,9 +62,19 @@ export default function RegisterPage() {
             <p className="auth-card__subtitle" style={{ marginBottom: 24 }}>
               أرسلنا رابط تفعيل إلى <strong>{form.email}</strong>. يُرجى الضغط عليه خلال 24 ساعة.
             </p>
-            <Link to="/login" className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
-              العودة لتسجيل الدخول
-            </Link>
+            <div style={{ display: 'flex', gap: 10, justifyContent: 'center' }}>
+              <Link to="/login" className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
+                العودة لتسجيل الدخول
+              </Link>
+              <button className="btn btn-outline" style={{ display: 'inline-flex', width: 'auto' }} onClick={async () => {
+                try {
+                  await authApi.resendVerification({ email: form.email });
+                  alert('تم الإرسال مجدداً بنجاح بناءً على طلبك.');
+                } catch {
+                  alert('حدث خطأ، حاول مجدداً لاحقاً.');
+                }
+              }}>لم تستلم البريد؟ أعد الإرسال</button>
+            </div>
           </div>
         </div>
       </div>

@@ -6,6 +6,17 @@ import { logger } from './core/lib/logger.js';
 
 const PORT = Number(process.env.PORT ?? 5000);
 
+// ── IMP-1: Startup ENV validation ─────────────────
+const REQUIRED_ENV = [
+  'DATABASE_URL', 'JWT_ACCESS_SECRET', 'JWT_REFRESH_SECRET',
+  'SMTP_HOST', 'SMTP_PORT', 'SMTP_USER', 'SMTP_PASS',
+];
+const missing = REQUIRED_ENV.filter((k) => !process.env[k]);
+if (missing.length) {
+  console.error(`[STARTUP] متغيرات البيئة التالية مفقودة: ${missing.join(', ')}`);
+  process.exit(1);
+}
+
 async function main() {
   // Verify DB connection before accepting requests
   await prisma.$connect();
@@ -21,9 +32,13 @@ main().catch((err) => {
   process.exit(1);
 });
 
-// Graceful shutdown
-process.on('SIGTERM', async () => {
+// Graceful shutdown — BUG-4: handle both SIGTERM (Docker) and SIGINT (Ctrl+C)
+async function shutdown(signal) {
+  logger.info({ action: 'SERVER_SHUTDOWN', signal });
   await prisma.$disconnect();
-  logger.info({ action: 'SERVER_SHUTDOWN' });
   process.exit(0);
-});
+}
+
+process.on('SIGTERM', () => shutdown('SIGTERM'));
+process.on('SIGINT',  () => shutdown('SIGINT'));
+

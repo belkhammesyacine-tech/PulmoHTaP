@@ -3,6 +3,7 @@ import { Router } from 'express';
 import { authenticate } from '../../core/middleware/authenticate.js';
 import { validate } from '../../core/middleware/validate.js';
 import { z } from 'zod';
+import { changePasswordSchema } from '../auth/auth.schema.js';
 import * as ctrl from './users.controller.js';
 
 const router = Router();
@@ -22,15 +23,8 @@ const updateProfileSchema = z.object({
   }).optional(),
 }).strict();
 
-const changePasswordSchema = z.object({
-  currentPassword: z.string().min(1),
-  newPassword:     z.string().min(8)
-    .regex(/[A-Z]/, 'يجب أن تحتوي على حرف كبير')
-    .regex(/[0-9]/, 'يجب أن تحتوي على رقم'),
-});
-
 router.get('/',                                 ctrl.getMe);
-router.patch('/',          validate(updateProfileSchema), ctrl.updateProfile);
+router.patch('/',          validate(updateProfileSchema),  ctrl.updateProfile);
 router.patch('/password',  validate(changePasswordSchema), ctrl.changePassword);
 router.get('/sessions',                         ctrl.getSessions);
 router.delete('/sessions',                      ctrl.revokeAllSessions);

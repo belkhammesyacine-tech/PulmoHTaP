@@ -2,14 +2,24 @@
 import nodemailer from 'nodemailer';
 import { logger } from './logger.js';
 
+// BUG-6: secure must be true for port 465 (SSL), false for 587 (STARTTLS)
+const smtpPort = Number(process.env.SMTP_PORT ?? 587);
+
 const transport = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port: Number(process.env.SMTP_PORT),
-  secure: false, // STARTTLS on port 587
+  port: smtpPort,
+  secure: smtpPort === 465,
   auth: {
     user: process.env.SMTP_USER,
     pass: process.env.SMTP_PASS,
   },
+});
+
+// IMP-3: Verify SMTP connection at startup so misconfiguration is caught early
+transport.verify().then(() => {
+  logger.info({ action: 'SMTP_VERIFIED', host: process.env.SMTP_HOST, port: smtpPort });
+}).catch((err) => {
+  logger.error({ action: 'SMTP_VERIFY_FAILED', err: err.message });
 });
 
 const CLIENT_URL = process.env.CLIENT_URL ?? 'http://localhost:5173';
@@ -56,6 +66,7 @@ function baseTemplate(title, content) {
 
 export async function sendVerificationEmail(to, token) {
   const link = `${CLIENT_URL}/verify-email?token=${token}`;
+  logger.info({ action: 'EMAIL_LINK_GENERATED', type: 'Verification', to, link }); // <-- Added for dev
   const html = baseTemplate('تفعيل حسابك', `
     <p>مرحباً! شكراً لتسجيلك في منصة PulmoHTapAlgérie.</p>
     <p>اضغط على الزر أدناه لتفعيل حسابك. الرابط صالح لمدة <strong>24 ساعة</strong>.</p>
@@ -67,6 +78,7 @@ export async function sendVerificationEmail(to, token) {
 
 export async function sendPasswordResetEmail(to, token) {
   const link = `${CLIENT_URL}/reset-password?token=${token}`;
+  logger.info({ action: 'EMAIL_LINK_GENERATED', type: 'PasswordReset', to, link }); // <-- Added for dev
   const html = baseTemplate('إعادة تعيين كلمة المرور', `
     <p>تلقّينا طلباً لإعادة تعيين كلمة مرور حسابك.</p>
     <p>اضغط على الزر أدناه. الرابط صالح لمدة <strong>ساعة واحدة</strong>.</p>
