@@ -87,7 +87,12 @@ export default function LandingPage() {
         <div className="section__inner section__split">
           <div className="about-visual">
             <div className="about-visual__card">
-              <span className="about-visual__icon">🫁</span>
+              {/* اللوجو المضيء بدلاً من إيموجي الرئة */}
+              <img 
+                src="/pulmoHTap-LOGO.png" 
+                alt="PulmoHTap Logo" 
+                className="h-20 w-auto mx-auto mb-2 filter drop-shadow-[0_0_12px_rgba(34,211,238,0.6)]" 
+              />
               <p>ارتفاع ضغط الدم الرئوي</p>
             </div>
           </div>

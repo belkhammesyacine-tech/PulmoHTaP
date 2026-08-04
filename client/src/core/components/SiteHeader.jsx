@@ -18,12 +18,22 @@ export default function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header__inner">
-        <Link to="/" className="site-brand">
-          <span className="site-brand__icon">🫁</span>
-          <span className="site-brand__text">
-            <strong>PulmoHTap</strong>
-            <small>Algérie</small>
-          </span>
+        {/* رابط اللوجو والاسم */}
+        <Link to="/" className="site-brand flex items-center gap-3">
+         <img 
+  src="/pulmoHTap-LOGO.png" 
+  alt="PulmoHTap Logo" 
+  className="h-11 w-auto object-contain filter drop-shadow-[0_0_8px_rgba(34,211,238,0.5)]" 
+/>
+          <div className="flex flex-col">
+            <span className="site-brand__text leading-none">
+              <strong>PulmoHTap</strong>
+              <small className="text-cyan-400 mr-1">Algérie</small>
+            </span>
+            <span className="text-[9px] text-slate-400 font-semibold tracking-wider uppercase mt-1">
+              Breathe Better. Live Better.
+            </span>
+          </div>
         </Link>
 
         {isLanding && (

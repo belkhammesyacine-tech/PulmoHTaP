@@ -13,7 +13,7 @@ const transport = nodemailer.createTransport({
 });
 
 const CLIENT_URL = process.env.CLIENT_URL ?? 'http://localhost:5173';
-const FROM = process.env.EMAIL_FROM ?? 'PulmoHTapAlgérie <noreply@example.com>';
+const FROM = `PulmoHTapAlgérie <${process.env.SMTP_USER}>`;
 
 // ── Helpers ────────────────────────────────────
 
@@ -78,9 +78,12 @@ export async function sendPasswordResetEmail(to, token) {
 
 async function _send(to, subject, html) {
   try {
+    console.log(`📧 جاري المحاولة لإرسال الإيميل إلى: ${to}`);
     await transport.sendMail({ from: FROM, to, subject, html });
+    console.log("✅ تم إرسال البريد بنجاح!");
     logger.info({ action: 'EMAIL_SENT', to, subject });
   } catch (err) {
+    console.error("❌ خطأ Nodemailer التفصيلي هو:", err); // 👈 أضف هذا السطر
     logger.error({ action: 'EMAIL_FAILED', to, subject, err: err.message });
     throw err;
   }

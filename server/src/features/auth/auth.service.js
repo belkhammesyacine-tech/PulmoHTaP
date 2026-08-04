@@ -180,7 +180,7 @@ export async function forgotPassword({ email }, meta) {
   const user = await prisma.user.findUnique({ where: { email }, select: { id: true, status: true } });
 
   // Always return success to prevent email enumeration
-  if (!user || user.status !== 'ACTIVE') {
+  if (!user) {
     logger.warn({ action: 'FORGOT_PASSWORD_UNKNOWN_EMAIL', email });
     return;
   }
