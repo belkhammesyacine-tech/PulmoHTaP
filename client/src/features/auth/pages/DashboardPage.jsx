@@ -1,5 +1,6 @@
 // features/auth/pages/DashboardPage.jsx
 import { useAuth } from '../../../core/context/AuthContext.jsx';
+import { Link } from 'react-router-dom';
 import DashboardNav from '../../../core/components/DashboardNav.jsx';
 import { ACCOUNT_TYPE_LABELS } from '../../../core/constants/accountTypes.js';
 
@@ -11,6 +12,31 @@ export default function DashboardPage() {
       <DashboardNav />
 
       <main className="dashboard-content">
+        {(user?.accountType === 'DOCTOR' || user?.accountType === 'SPECIALIST') && (!user?.doctorVerification || user.doctorVerification.status === 'UNVERIFIED' || user.doctorVerification.status === 'REJECTED') && (
+          <div className="alert alert-warning" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>
+              <strong>تنبيه:</strong> حسابك كطبيب يحتاج إلى توثيق لكي تتمكن من الوصول لبيانات المرضى.
+              {user?.doctorVerification?.status === 'REJECTED' && ` (سبب الرفض: ${user.doctorVerification.rejectionReason})`}
+            </span>
+            <Link to="/verify-doctor" className="btn btn-primary btn-sm" style={{ margin: 0 }}>
+              توثيق الحساب
+            </Link>
+          </div>
+        )}
+        
+        {(user?.accountType === 'DOCTOR' || user?.accountType === 'SPECIALIST') && user?.doctorVerification?.status === 'PENDING_REVIEW' && (
+          <div className="alert alert-info">
+            <strong>قيد المراجعة:</strong> طلب التوثيق الخاص بك قيد المراجعة من قبل الإدارة.
+          </div>
+        )}
+
+        {user?.accountType === 'PLATFORM_ADMIN' && (
+          <div className="alert alert-info" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span>أنت مدير منصة. راجع طلبات توثيق الأطباء.</span>
+            <Link to="/admin" className="btn btn-primary btn-sm" style={{ margin: 0 }}>لوحة الإدارة</Link>
+          </div>
+        )}
+
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
             <h1 className="card-title" style={{ borderBottom: 'none', margin: 0, padding: 0 }}>

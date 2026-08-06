@@ -9,13 +9,26 @@ import { AppError } from './core/errors/AppError.js';
 import { logger } from './core/lib/logger.js';
 import authRoutes from './features/auth/auth.routes.js';
 import usersRoutes from './features/users/users.routes.js';
+import doctorsRoutes from './features/users/doctors.routes.js';
+import appointmentsRoutes from './features/appointments/appointments.routes.js';
+import recordsRoutes from './features/records/records.routes.js';
+import adminRoutes from './features/admin/admin.routes.js';
+import notificationsRoutes from './features/notifications/notifications.routes.js';
+import uploadsRoutes from './features/uploads/uploads.routes.js';
+import chatRoutes from './features/chat/chat.routes.js';
 
 const app = express();
 
 // ── Security Middleware (M6) ───────────────────
 app.use(helmet());
 app.use(cors({
-  origin: process.env.CLIENT_URL ?? 'http://localhost:5173',
+  origin: function (origin, callback) {
+    if (!origin || origin.startsWith('http://localhost:') || origin === process.env.CLIENT_URL) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true, // Required for HttpOnly cookies
 }));
 
@@ -32,8 +45,15 @@ app.get('/api/health', (_req, res) => {
 });
 
 // ── Routes ─────────────────────────────────────
-app.use('/api/auth',  authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/users/me', usersRoutes);
+app.use('/api/doctors', doctorsRoutes);
+app.use('/api/appointments', appointmentsRoutes);
+app.use('/api/records', recordsRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/notifications', notificationsRoutes);
+app.use('/api/upload', uploadsRoutes);
+app.use('/api/chat', chatRoutes);
 
 // ── 404 Handler ────────────────────────────────
 app.use((_req, _res, next) => {

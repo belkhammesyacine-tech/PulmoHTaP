@@ -31,7 +31,7 @@ export default function VerifyEmailPage() {
 
   return (
     <div className="auth-page">
-      <AuthHero icon="🫁" title="تفعيل الحساب" subtitle="تأكيد بريدك الإلكتروني لتفعيل حسابك على PulmoHTapAlgérie" />
+      <AuthHero title="تفعيل الحساب" subtitle="تأكيد بريدك الإلكتروني لتفعيل حسابك على PulmoHTapAlgérie" />
       <div className="auth-form-side">
         <div className="auth-card" style={{ textAlign: 'center' }}>
           {status === 'verifying' && (

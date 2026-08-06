@@ -43,3 +43,24 @@ export async function revokeSession(req, res, next) {
     res.json({ message: 'تم إنهاء الجلسة' });
   } catch (err) { next(err); }
 }
+
+export async function submitVerification(req, res, next) {
+  try {
+    const verification = await usersService.submitVerification(req.user.sub, req.body);
+    res.json({ message: 'تم استلام طلب التوثيق وسيتم مراجعته', verification });
+  } catch (err) { next(err); }
+}
+
+export async function getDoctors(req, res, next) {
+  try {
+    const { wilaya, specialty, page, limit } = req.query;
+    const result = await usersService.getDoctors({
+      wilaya: wilaya || undefined,
+      specialty: specialty || undefined,
+      page: page ? parseInt(page) : 1,
+      limit: limit ? parseInt(limit) : 12,
+    });
+    res.json(result);
+  } catch (err) { next(err); }
+}
+

@@ -2,10 +2,12 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
+import { useLang } from '../../../core/context/LanguageContext.jsx';
 import AuthHero from '../../../core/components/AuthHero.jsx';
 import { ACCOUNT_TYPES } from '../../../core/constants/accountTypes.js';
 
 export default function RegisterPage() {
+  const { t } = useLang();
   const [searchParams] = useSearchParams();
   const [form, setForm] = useState({
     fullName: '', email: '', phone: '', password: '',
@@ -23,13 +25,13 @@ export default function RegisterPage() {
 
   const validate = () => {
     const errs = {};
-    if (!form.fullName || form.fullName.length < 3) errs.fullName = 'الاسم الكامل مطلوب (3 أحرف على الأقل)';
-    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) errs.email = 'بريد إلكتروني غير صحيح';
-    if (!form.phone || !/^(\+213|0)(5|6|7)\d{8}$/.test(form.phone)) errs.phone = 'رقم الهاتف الجزائري غير صحيح (مثال: 0555123456)';
-    if (!form.password || form.password.length < 8) errs.password = 'كلمة المرور 8 أحرف على الأقل';
-    else if (!/[A-Z]/.test(form.password)) errs.password = 'يجب أن تحتوي على حرف كبير';
-    else if (!/[0-9]/.test(form.password)) errs.password = 'يجب أن تحتوي على رقم';
-    if (!form.accountType) errs.accountType = 'يُرجى اختيار نوع الحساب';
+    if (!form.fullName || form.fullName.length < 3) errs.fullName = t('auth.err_name');
+    if (!form.email || !/\S+@\S+\.\S+/.test(form.email)) errs.email = t('auth.err_email');
+    if (!form.phone || !/^(\+213|0)(5|6|7)\d{8}$/.test(form.phone)) errs.phone = t('auth.err_phone');
+    if (!form.password || form.password.length < 8) errs.password = t('auth.err_pwd_len');
+    else if (!/[A-Z]/.test(form.password)) errs.password = t('auth.err_pwd_upper');
+    else if (!/[0-9]/.test(form.password)) errs.password = t('auth.err_pwd_num');
+    if (!form.accountType) errs.accountType = t('auth.err_type');
     return errs;
   };
 
@@ -44,7 +46,7 @@ export default function RegisterPage() {
       await authApi.register(form);
       setSuccess(true);
     } catch (err) {
-      setApiError(err.response?.data?.error ?? 'حدث خطأ، يُرجى المحاولة لاحقاً');
+      setApiError(err.response?.data?.error ?? t('auth.login_error_default'));
     } finally {
       setLoading(false);
     }
@@ -54,68 +56,68 @@ export default function RegisterPage() {
     return (
       <div className="auth-page">
         <AuthHero />
-        <div className="auth-form-side">
-          <div className="auth-card" style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 64, marginBottom: 16 }}>📧</div>
-            <h2 className="auth-card__title">تحقق من بريدك الإلكتروني</h2>
-            <p className="auth-card__subtitle" style={{ marginBottom: 24 }}>
-              أرسلنا رابط تفعيل إلى <strong>{form.email}</strong>. يُرجى الضغط عليه خلال 24 ساعة.
-            </p>
-            <Link to="/login" className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
-              العودة لتسجيل الدخول
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="auth-page">
-      <AuthHero />
       <div className="auth-form-side">
-        <div className="auth-card">
-          <h1 className="auth-card__title">إنشاء حساب جديد</h1>
-          <p className="auth-card__subtitle">انضم إلى منصة PulmoHTapAlgérie</p>
-
-          {apiError && <div className="alert alert-error">⚠️ {apiError}</div>}
-
-          <form onSubmit={onSubmit} noValidate>
-            <Field label="الاسم الكامل" id="fullName" name="fullName" type="text"
-              placeholder="أحمد بن علي" value={form.fullName} onChange={onChange} error={errors.fullName} autoFocus />
-
-            <Field label="البريد الإلكتروني" id="email" name="email" type="email"
-              placeholder="example@email.com" value={form.email} onChange={onChange} error={errors.email} />
-
-            <Field label="رقم الهاتف" id="phone" name="phone" type="tel"
-              placeholder="0555123456" value={form.phone} onChange={onChange} error={errors.phone} />
-
-            <Field label="كلمة المرور" id="password" name="password" type="password"
-              placeholder="8 أحرف، حرف كبير ورقم" value={form.password} onChange={onChange} error={errors.password} />
-
-            <div className="form-group">
-              <label className="form-label" htmlFor="accountType">نوع الحساب</label>
-              <select id="accountType" name="accountType" className={`form-input form-select${errors.accountType ? ' error' : ''}`}
-                value={form.accountType} onChange={onChange}>
-                <option value="">-- اختر نوع حسابك --</option>
-                {ACCOUNT_TYPES.map((t) => (
-                  <option key={t.value} value={t.value}>{t.icon} {t.label}</option>
-                ))}
-              </select>
-              {errors.accountType && <p className="form-error">⚠️ {errors.accountType}</p>}
-            </div>
-
-            <button id="btn-register" type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? <><div className="spinner" /> جاري الإنشاء...</> : 'إنشاء الحساب'}
-            </button>
-          </form>
-
-          <div className="auth-footer">
-            لديك حساب؟ <Link to="/login" className="btn-link">سجّل دخولك</Link>
-          </div>
+        <div className="auth-card" style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: 64, marginBottom: 16 }}>📧</div>
+          <h2 className="auth-card__title">{t('auth.check_email_title')}</h2>
+          <p className="auth-card__subtitle" style={{ marginBottom: 24 }}>
+            {t('auth.check_email_subtitle_1')} <strong>{form.email}</strong>. {t('auth.check_email_subtitle_2')}
+          </p>
+          <Link to="/login" className="btn btn-primary" style={{ display: 'inline-flex', width: 'auto' }}>
+            {t('auth.back_to_login')}
+          </Link>
         </div>
       </div>
     </div>
+  );
+}
+
+return (
+  <div className="auth-page">
+    <AuthHero />
+    <div className="auth-form-side">
+      <div className="auth-card">
+        <h1 className="auth-card__title">{t('auth.register_title')}</h1>
+        <p className="auth-card__subtitle">{t('auth.register_subtitle')}</p>
+
+        {apiError && <div className="alert alert-error">⚠️ {apiError}</div>}
+
+        <form onSubmit={onSubmit} noValidate>
+          <Field label={t('auth.fullName')} id="fullName" name="fullName" type="text"
+            placeholder="" value={form.fullName} onChange={onChange} error={errors.fullName} autoFocus />
+
+          <Field label={t('auth.email')} id="email" name="email" type="email"
+            placeholder="example@email.com" value={form.email} onChange={onChange} error={errors.email} />
+
+          <Field label={t('auth.phone')} id="phone" name="phone" type="tel"
+            placeholder="0555123456" value={form.phone} onChange={onChange} error={errors.phone} />
+
+          <Field label={t('auth.password')} id="password" name="password" type="password"
+            placeholder="" value={form.password} onChange={onChange} error={errors.password} />
+
+          <div className="form-group">
+            <label className="form-label" htmlFor="accountType">{t('auth.account_type')}</label>
+            <select id="accountType" name="accountType" className={`form-input form-select${errors.accountType ? ' error' : ''}`}
+              value={form.accountType} onChange={onChange}>
+              <option value="">{t('auth.select_account')}</option>
+              {ACCOUNT_TYPES.map((typeObj) => (
+                <option key={typeObj.value} value={typeObj.value}>{typeObj.icon} {typeObj.label}</option>
+              ))}
+            </select>
+            {errors.accountType && <p className="form-error">⚠️ {errors.accountType}</p>}
+          </div>
+
+          <button id="btn-register" type="submit" className="btn btn-primary" disabled={loading}>
+            {loading ? <><div className="spinner" /> {t('auth.creating')}</> : t('auth.register_btn')}
+          </button>
+        </form>
+
+        <div className="auth-footer">
+          {t('auth.has_account')} <Link to="/login" className="btn-link">{t('auth.login_btn')}</Link>
+        </div>
+      </div>
+    </div>
+  </div>
   );
 }
 
