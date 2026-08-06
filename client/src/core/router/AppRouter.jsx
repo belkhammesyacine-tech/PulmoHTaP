@@ -1,15 +1,22 @@
 // core/router/AppRouter.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
-import LandingPage        from '../../features/landing/pages/LandingPage.jsx';
-import LoginPage          from '../../features/auth/pages/LoginPage.jsx';
-import RegisterPage       from '../../features/auth/pages/RegisterPage.jsx';
-import ForgotPasswordPage from '../../features/auth/pages/ForgotPasswordPage.jsx';
-import ResetPasswordPage  from '../../features/auth/pages/ResetPasswordPage.jsx';
-import VerifyEmailPage    from '../../features/auth/pages/VerifyEmailPage.jsx';
-import DashboardPage      from '../../features/auth/pages/DashboardPage.jsx';
-import ProfilePage        from '../../features/auth/pages/ProfilePage.jsx';
-import SessionsPage       from '../../features/auth/pages/SessionsPage.jsx';
+
+import LandingPage            from '../../features/landing/pages/LandingPage.jsx';
+import LoginPage              from '../../features/auth/pages/LoginPage.jsx';
+import RegisterPage           from '../../features/auth/pages/RegisterPage.jsx';
+import ForgotPasswordPage     from '../../features/auth/pages/ForgotPasswordPage.jsx';
+import ResetPasswordPage      from '../../features/auth/pages/ResetPasswordPage.jsx';
+import VerifyEmailPage        from '../../features/auth/pages/VerifyEmailPage.jsx';
+import DashboardPage          from '../../features/auth/pages/DashboardPage.jsx';
+import ProfilePage            from '../../features/auth/pages/ProfilePage.jsx';
+import SessionsPage           from '../../features/auth/pages/SessionsPage.jsx';
+import AppointmentsPage       from '../../features/appointments/pages/AppointmentsPage.jsx';
+import RecordsPage            from '../../features/records/pages/RecordsPage.jsx';
+import DoctorVerificationPage from '../../features/users/pages/DoctorVerificationPage.jsx';
+import FindDoctorPage         from '../../features/users/pages/FindDoctorPage.jsx';
+import AdminDashboardPage     from '../../features/admin/pages/AdminDashboardPage.jsx';
+import NotFoundPage           from '../pages/NotFoundPage.jsx';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
@@ -44,8 +51,13 @@ export default function AppRouter() {
         <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
         <Route path="/profile"   element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
         <Route path="/sessions"  element={<ProtectedRoute><SessionsPage /></ProtectedRoute>} />
+        <Route path="/appointments" element={<ProtectedRoute><AppointmentsPage /></ProtectedRoute>} />
+        <Route path="/records" element={<ProtectedRoute><RecordsPage /></ProtectedRoute>} />
+        <Route path="/find-doctor" element={<ProtectedRoute><FindDoctorPage /></ProtectedRoute>} />
+        <Route path="/verify-doctor" element={<ProtectedRoute><DoctorVerificationPage /></ProtectedRoute>} />
+        <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
 
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
   );

@@ -45,6 +45,21 @@ enum VerificationStatus {
   REJECTED
 }
 
+enum AppointmentStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum RecordType {
+  DIAGNOSIS
+  PRESCRIPTION
+  LAB_TEST
+  XRAY
+  GENERAL_NOTE
+}
+
 enum Wilaya {
   ADRAR
   CHLEF
@@ -128,6 +143,11 @@ model User {
   passwordResets       PasswordReset[]
   auditLogs            AuditLog[]
   doctorVerification   DoctorVerification?
+  appointmentsPatient  Appointment[]       @relation("PatientAppointments")
+  appointmentsDoctor   Appointment[]       @relation("DoctorAppointments")
+  medicalRecords       MedicalRecord[]     @relation("PatientRecords")
+  recordsAuthored      MedicalRecord[]     @relation("DoctorRecords")
+  notifications        Notification[]
 
   @@index([email])
   @@index([phone])
@@ -220,3 +240,62 @@ model AuditLog {
   @@index([action])
   @@index([createdAt])
 }
+
+// ─────────────────────────────────────────────
+// APPOINTMENTS & MEDICAL RECORDS
+// ─────────────────────────────────────────────
+
+model Appointment {
+  id          String            @id @default(cuid())
+  patientId   String
+  doctorId    String
+  patient     User              @relation("PatientAppointments", fields: [patientId], references: [id])
+  doctor      User              @relation("DoctorAppointments", fields: [doctorId], references: [id])
+  date        DateTime          // تاريخ ووقت الموعد
+  reason      String?           // سبب الزيارة
+  status      AppointmentStatus @default(PENDING)
+  notes       String?           // ملاحظات الطبيب
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@index([patientId])
+  @@index([doctorId])
+  @@index([date])
+}
+
+model MedicalRecord {
+  id          String      @id @default(cuid())
+  patientId   String
+  doctorId    String
+  patient     User        @relation("PatientRecords", fields: [patientId], references: [id])
+  doctor      User        @relation("DoctorRecords", fields: [doctorId], references: [id])
+  type        RecordType  @default(GENERAL_NOTE)
+  title       String      // عنوان السجل (مثال: وصفة طبية، تشخيص)
+  description String      @db.Text
+  attachment  String?     // رابط لمرفق (PDF, صوره)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([patientId])
+  @@index([doctorId])
+}
+
+// ─────────────────────────────────────────────
+// NOTIFICATIONS
+// ─────────────────────────────────────────────
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  body      String
+  type      String   @default("INFO")  // INFO | SUCCESS | WARNING | DANGER
+  isRead    Boolean  @default(false)
+  link      String?  // مسار اختياري للتوجيه عند الضغط
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([isRead])
+}
+

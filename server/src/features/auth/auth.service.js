@@ -179,12 +179,11 @@ export async function logout(rawRefreshToken) {
 export async function forgotPassword({ email }, meta) {
   const user = await prisma.user.findUnique({ where: { email }, select: { id: true, status: true } });
 
-  // Always return success to prevent email enumeration
-  if (!user || user.status !== 'ACTIVE') {
+  // 🟢 التعديل: استثناء الحسابات المعلقة والمحذوفة فقط والسماح للحسابات الـ PENDING بالاستعادة
+  if (!user || user.status === 'SUSPENDED' || user.status === 'DELETED') {
     logger.warn({ action: 'FORGOT_PASSWORD_UNKNOWN_EMAIL', email });
     return;
   }
-
   const token = secureToken();
 
   // Invalidate previous tokens

@@ -23,6 +23,8 @@
 5. **استعادة كلمة المرور (`POST /api/auth/forgot-password` & `reset-password`)**: حماية الحسابات من الفحص -> إرسال رابط آمن -> إعادة تعيين كلمة المرور وإلغاء جميع الجلسات القديمة.
 6. **إدارة الجلسات والملف الشخصي (`/api/users/me`)**: تحديث بيانات 58 ولاية جزائرية، إنهاء الجلسات المحددة أو جميع الجلسات الأخرى.
 7. **توثيق الأطباء (`DoctorVerification`)**: هيكل جاهز لرفع المراجعات والوثائق المهنية للأطباء والمختصين.
+8. **البحث عن الأطباء والمواعيد**: إمكانية بحث المريض عن طبيب بالولاية والتخصص، وحجز موعد.
+9. **السجلات الطبية والإشعارات**: إضافة سجلات من طرف الأطباء وتلقي إشعارات داخلية عند تغير حالة المواعيد.
 
 ---
 
@@ -31,30 +33,39 @@
 PulmoHTaP4/
 ├── server/
 │   ├── prisma/
-│   │   └── schema.prisma        (User, UserProfile, Session, EmailVerification, PasswordReset, DoctorVerification, AuditLog, Wilaya [58])
+│   │   └── schema.prisma        (User, UserProfile, Session, EmailVerification, PasswordReset, DoctorVerification, AuditLog, Wilaya [58], Appointment, MedicalRecord, Notification)
 │   └── src/
 │       ├── core/                (prisma, token, email, logger, AppError, authenticate, validate, rateLimiter)
 │       └── features/
 │           ├── auth/            (schema, service, controller, routes)
-│           └── users/           (service, controller, routes)
+│           ├── users/           (service, controller, routes, doctors.routes)
+│           ├── appointments/    (service, controller, routes, schema)
+│           ├── records/         (service, controller, routes, schema)
+│           ├── admin/           (service, controller, routes)
+│           └── notifications/   (service, controller, routes)
 └── client/
     └── src/
         ├── core/
-        │   ├── components/      (SiteHeader, SiteFooter, AuthHero, DashboardNav)
+        │   ├── components/      (SiteHeader, SiteFooter, AuthHero, DashboardNav, NotificationBell)
         │   ├── constants/       (accountTypes, wilayas)
         │   ├── client.js, AuthContext, AppRouter
         └── features/
             ├── landing/         (LandingPage — صفحة رئيسية طبية RTL)
-            └── auth/            (LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage, DashboardPage, ProfilePage, SessionsPage)
+            ├── auth/            (LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage, DashboardPage, ProfilePage, SessionsPage)
+            ├── appointments/    (AppointmentsPage)
+            ├── records/         (RecordsPage)
+            ├── users/           (DoctorVerificationPage, FindDoctorPage)
+            └── admin/           (AdminDashboardPage)
 ```
 
 ---
 
 ## [ORPHANS & PENDING]
 - `[ ]` إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.
-- `[ ]` تفعيل رفع وثائق الأطباء (Doctor Verification file upload UI) عند بناء وحدة المطبّة المتقدمة.
+- `[ ]` تفعيل رفع وثائق الأطباء الفعلية (Document Upload) وربطها بـ Supabase Storage أو غيره.
 
 ## [UI_DESIGN]
 - **الثيم**: Teal طبي (#0d9488) — glassmorphism — RTL عربي
 - **الصفحة الرئيسية** (`/`): Hero + شريط بحث سريع (ولاية/نوع حساب) + من نحن + أنواع الحسابات + إحصائيات + خدمات + Footer CTA
-- **المسارات**: `/` عامة | `/login` `/register` ضيف | `/dashboard` `/profile` `/sessions` محمية
+- **المسارات**: `/` عامة | `/login` `/register` ضيف | `/dashboard` `/profile` `/sessions` `/appointments` `/records` `/find-doctor` محمية
+
