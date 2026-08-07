@@ -3,7 +3,10 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardNav from '../../../core/components/DashboardNav.jsx';
 import { useAuth } from '../../../core/context/AuthContext.jsx';
+<<<<<<< HEAD
 import { useLang } from '../../../core/context/LanguageContext.jsx';
+=======
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 import client from '../../../core/api/client.js';
 import { WILAYAS } from '../../../core/constants/wilayas.js';
 
@@ -27,7 +30,10 @@ const WILAYA_LABELS = {
 };
 
 function BookingModal({ doctor, onClose, onBooked }) {
+<<<<<<< HEAD
   const { t } = useLang();
+=======
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
   const [form, setForm] = useState({ date: '', reason: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError]     = useState(null);
@@ -40,7 +46,11 @@ function BookingModal({ doctor, onClose, onBooked }) {
       await client.post('/appointments', { doctorId: doctor.id, ...form });
       onBooked();
     } catch (err) {
+<<<<<<< HEAD
       setError(err.response?.data?.error || t('appointments.err_booking'));
+=======
+      setError(err.response?.data?.error || 'حدث خطأ أثناء الحجز');
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
     } finally {
       setLoading(false);
     }
@@ -50,7 +60,11 @@ function BookingModal({ doctor, onClose, onBooked }) {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-box" onClick={e => e.stopPropagation()}>
         <div className="modal-header">
+<<<<<<< HEAD
           <h2 className="modal-title">📅 {t('find_doctor.book_title')}</h2>
+=======
+          <h2 className="modal-title">📅 حجز موعد</h2>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
           <button className="modal-close" onClick={onClose}>✕</button>
         </div>
         <div style={{ marginBottom: 16, padding: 12, background: 'var(--color-primary-light)', borderRadius: 'var(--radius-md)' }}>
@@ -64,7 +78,11 @@ function BookingModal({ doctor, onClose, onBooked }) {
         {error && <div className="alert alert-error">{error}</div>}
         <form onSubmit={submit}>
           <div className="form-group">
+<<<<<<< HEAD
             <label className="form-label" htmlFor="fd-date">{t('appointments.date_time')} *</label>
+=======
+            <label className="form-label" htmlFor="fd-date">التاريخ والوقت *</label>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             <input
               id="fd-date"
               type="datetime-local"
@@ -76,7 +94,11 @@ function BookingModal({ doctor, onClose, onBooked }) {
             />
           </div>
           <div className="form-group">
+<<<<<<< HEAD
             <label className="form-label" htmlFor="fd-reason">{t('appointments.reason')} {t('common.optional')}</label>
+=======
+            <label className="form-label" htmlFor="fd-reason">سبب الزيارة (اختياري)</label>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             <textarea
               id="fd-reason"
               className="form-input"
@@ -87,9 +109,15 @@ function BookingModal({ doctor, onClose, onBooked }) {
             />
           </div>
           <div style={{ display: 'flex', gap: 12, justifyContent: 'flex-end' }}>
+<<<<<<< HEAD
             <button type="button" className="btn btn-outline btn-sm" onClick={onClose}>{t('common.cancel')}</button>
             <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
               {loading ? <span className="spinner" /> : `✓ ${t('find_doctor.confirm_btn')}`}
+=======
+            <button type="button" className="btn btn-outline btn-sm" onClick={onClose}>إلغاء</button>
+            <button type="submit" className="btn btn-primary btn-sm" disabled={loading}>
+              {loading ? <span className="spinner" /> : '✓ تأكيد'}
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             </button>
           </div>
         </form>
@@ -100,7 +128,10 @@ function BookingModal({ doctor, onClose, onBooked }) {
 
 export default function FindDoctorPage() {
   const { user } = useAuth();
+<<<<<<< HEAD
   const { t, lang } = useLang();
+=======
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
   const navigate  = useNavigate();
   const isPatient = user?.accountType === 'PATIENT';
 
@@ -143,6 +174,7 @@ export default function FindDoctorPage() {
       <main className="dashboard-content">
         {/* Search bar */}
         <div className="card" style={{ marginBottom: 24 }}>
+<<<<<<< HEAD
           <h1 className="card-title">{t('find_doctor.title')}</h1>
           <p style={{ color: 'var(--color-text-muted)', marginBottom: 20, fontSize: 14 }}>
             {t('find_doctor.subtitle')}
@@ -150,18 +182,35 @@ export default function FindDoctorPage() {
 
           {bookedSuccess && (
             <div className="alert alert-success">{t('find_doctor.success_booked')}</div>
+=======
+          <h1 className="card-title">🔍 البحث عن طبيب</h1>
+          <p style={{ color: 'var(--color-text-muted)', marginBottom: 20, fontSize: 14 }}>
+            ابحث عن طبيب أو مختص في ولايتك أو حسب التخصص.
+          </p>
+
+          {bookedSuccess && (
+            <div className="alert alert-success">✅ تم إرسال طلب الحجز بنجاح! يمكنك متابعته من صفحة المواعيد.</div>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
           )}
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr auto', gap: 16, alignItems: 'end' }}>
             <div className="form-group" style={{ marginBottom: 0 }}>
+<<<<<<< HEAD
               <label className="form-label" htmlFor="fd-wilaya">{t('find_doctor.wilaya')}</label>
+=======
+              <label className="form-label" htmlFor="fd-wilaya">الولاية</label>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
               <select
                 id="fd-wilaya"
                 className="form-input form-select"
                 value={wilaya}
                 onChange={e => setWilaya(e.target.value)}
               >
+<<<<<<< HEAD
                 <option value="">{t('find_doctor.all_wilayas')}</option>
+=======
+                <option value="">— كل الولايات —</option>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
                 {WILAYAS.map(w => (
                   <option key={w} value={w}>{WILAYA_LABELS[w] || w}</option>
                 ))}
@@ -169,12 +218,20 @@ export default function FindDoctorPage() {
             </div>
 
             <div className="form-group" style={{ marginBottom: 0 }}>
+<<<<<<< HEAD
               <label className="form-label" htmlFor="fd-specialty">{t('find_doctor.specialty')}</label>
+=======
+              <label className="form-label" htmlFor="fd-specialty">التخصص</label>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
               <input
                 id="fd-specialty"
                 type="text"
                 className="form-input"
+<<<<<<< HEAD
                 placeholder={t('find_doctor.specialty_placeholder')}
+=======
+                placeholder="مثال: أمراض الرئة، قلب..."
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
                 value={specialty}
                 onChange={e => setSpecialty(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && search()}
@@ -188,7 +245,11 @@ export default function FindDoctorPage() {
               onClick={search}
               disabled={loading}
             >
+<<<<<<< HEAD
               {loading ? <span className="spinner" /> : `🔍 ${t('find_doctor.search_btn')}`}
+=======
+              {loading ? <span className="spinner" /> : '🔍 بحث'}
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             </button>
           </div>
         </div>
@@ -197,7 +258,11 @@ export default function FindDoctorPage() {
         <div className="card">
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
             <h2 style={{ fontSize: 16, fontWeight: 700 }}>
+<<<<<<< HEAD
               {searched ? `${doctors.length} ${t('find_doctor.results_count')}` : t('find_doctor.all_available')}
+=======
+              {searched ? `${doctors.length} طبيب/مختص` : 'جميع الأطباء المتاحين'}
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             </h2>
           </div>
 
@@ -206,8 +271,13 @@ export default function FindDoctorPage() {
           ) : doctors.length === 0 ? (
             <div style={{ textAlign: 'center', padding: '60px 0', color: 'var(--color-text-muted)' }}>
               <div style={{ fontSize: 48, marginBottom: 12 }}>🔍</div>
+<<<<<<< HEAD
               <p>{t('find_doctor.no_results')}</p>
               <p style={{ fontSize: 13, marginTop: 8 }}>{t('find_doctor.try_change')}</p>
+=======
+              <p>لا توجد نتائج مطابقة لبحثك.</p>
+              <p style={{ fontSize: 13, marginTop: 8 }}>جرّب تغيير الولاية أو التخصص.</p>
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
             </div>
           ) : (
             <div className="doctors-grid">
@@ -238,9 +308,15 @@ export default function FindDoctorPage() {
                       </div>
                     )}
                     <div style={{ marginTop: 12 }}>
+<<<<<<< HEAD
                       <span className="badge badge-success" style={{ fontSize: 11 }}>{t('find_doctor.verified')}</span>
                       <span style={{ fontSize: 11, color: 'var(--color-text-muted)', marginRight: lang === 'ar' ? 8 : 0, marginLeft: lang === 'ar' ? 0 : 8 }}>
                         {doctor.accountType === 'SPECIALIST' ? t('find_doctor.specialist') : t('find_doctor.doctor')}
+=======
+                      <span className="badge badge-success" style={{ fontSize: 11 }}>✓ موثق</span>
+                      <span style={{ fontSize: 11, color: 'var(--color-text-muted)', marginRight: 8 }}>
+                        {doctor.accountType === 'SPECIALIST' ? 'مختص' : 'طبيب'}
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
                       </span>
                     </div>
                     {isPatient && (
@@ -249,7 +325,11 @@ export default function FindDoctorPage() {
                         style={{ width: '100%', marginTop: 14 }}
                         onClick={() => setBookTarget(doctor)}
                       >
+<<<<<<< HEAD
                         {t('find_doctor.book_btn')}
+=======
+                        📅 حجز موعد
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
                       </button>
                     )}
                   </div>

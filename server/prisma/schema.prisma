@@ -148,8 +148,11 @@ model User {
   medicalRecords       MedicalRecord[]     @relation("PatientRecords")
   recordsAuthored      MedicalRecord[]     @relation("DoctorRecords")
   notifications        Notification[]
+<<<<<<< HEAD
   messagesSent         Message[]           @relation("SentMessages")
   messagesReceived     Message[]           @relation("ReceivedMessages")
+=======
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 
   @@index([email])
   @@index([phone])
@@ -301,6 +304,7 @@ model Notification {
   @@index([isRead])
 }
 
+<<<<<<< HEAD
 // ─────────────────────────────────────────────
 // MESSAGES (Real-time Chat)
 // ─────────────────────────────────────────────
@@ -319,3 +323,5 @@ model Message {
   @@index([receiverId])
   @@index([senderId, receiverId])
 }
+=======
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d

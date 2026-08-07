@@ -13,10 +13,15 @@ import ProfilePage            from '../../features/auth/pages/ProfilePage.jsx';
 import SessionsPage           from '../../features/auth/pages/SessionsPage.jsx';
 import AppointmentsPage       from '../../features/appointments/pages/AppointmentsPage.jsx';
 import RecordsPage            from '../../features/records/pages/RecordsPage.jsx';
+<<<<<<< HEAD
 import PrintRecordPage        from '../../features/records/pages/PrintRecordPage.jsx';
 import DoctorVerificationPage from '../../features/users/pages/DoctorVerificationPage.jsx';
 import FindDoctorPage         from '../../features/users/pages/FindDoctorPage.jsx';
 import ChatPage               from '../../features/chat/pages/ChatPage.jsx';
+=======
+import DoctorVerificationPage from '../../features/users/pages/DoctorVerificationPage.jsx';
+import FindDoctorPage         from '../../features/users/pages/FindDoctorPage.jsx';
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 import AdminDashboardPage     from '../../features/admin/pages/AdminDashboardPage.jsx';
 import NotFoundPage           from '../pages/NotFoundPage.jsx';
 
@@ -55,9 +60,13 @@ export default function AppRouter() {
         <Route path="/sessions"  element={<ProtectedRoute><SessionsPage /></ProtectedRoute>} />
         <Route path="/appointments" element={<ProtectedRoute><AppointmentsPage /></ProtectedRoute>} />
         <Route path="/records" element={<ProtectedRoute><RecordsPage /></ProtectedRoute>} />
+<<<<<<< HEAD
         <Route path="/records/:id/print" element={<ProtectedRoute><PrintRecordPage /></ProtectedRoute>} />
         <Route path="/find-doctor" element={<ProtectedRoute><FindDoctorPage /></ProtectedRoute>} />
         <Route path="/chat" element={<ProtectedRoute><ChatPage /></ProtectedRoute>} />
+=======
+        <Route path="/find-doctor" element={<ProtectedRoute><FindDoctorPage /></ProtectedRoute>} />
+>>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
         <Route path="/verify-doctor" element={<ProtectedRoute><DoctorVerificationPage /></ProtectedRoute>} />
         <Route path="/admin" element={<ProtectedRoute><AdminDashboardPage /></ProtectedRoute>} />
 
