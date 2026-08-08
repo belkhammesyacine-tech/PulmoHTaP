@@ -10,5 +10,9 @@
   },
   "devDependencies": {
     "concurrently": "10.0.4"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.2",
+    "multer": "^2.2.0"
   }
 }

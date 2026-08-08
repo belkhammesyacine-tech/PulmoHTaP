@@ -22,6 +22,13 @@ const updateProfileSchema = z.object({
   }).optional(),
 }).strict();
 
+const submitVerificationSchema = z.object({
+  licenseNumber: z.string().min(3),
+  specialty: z.string().optional(),
+  institution: z.string().optional(),
+  documentUrl: z.string().url().optional(),
+});
+
 const changePasswordSchema = z.object({
   currentPassword: z.string().min(1),
   newPassword:     z.string().min(8)
@@ -35,5 +42,8 @@ router.patch('/password',  validate(changePasswordSchema), ctrl.changePassword);
 router.get('/sessions',                         ctrl.getSessions);
 router.delete('/sessions',                      ctrl.revokeAllSessions);
 router.delete('/sessions/:sessionId',           ctrl.revokeSession);
+
+// Verification routes
+router.post('/verification', validate(submitVerificationSchema), ctrl.submitVerification);
 
 export default router;

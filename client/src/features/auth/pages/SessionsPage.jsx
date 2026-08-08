@@ -1,7 +1,7 @@
 // features/auth/pages/SessionsPage.jsx
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { authApi } from '../api/auth.api.js';
+import DashboardNav from '../../../core/components/DashboardNav.jsx';
 
 export default function SessionsPage() {
   const [sessions, setSessions] = useState([]);
@@ -38,12 +38,7 @@ export default function SessionsPage() {
 
   return (
     <div className="dashboard">
-      <nav className="dashboard-nav">
-        <Link to="/dashboard" className="nav-brand">
-          <span>←</span>
-          <span>العودة للوحة التحكم</span>
-        </Link>
-      </nav>
+      <DashboardNav backTo="/dashboard" backLabel="العودة للوحة التحكم" />
 
       <main className="dashboard-content">
         <div className="card">

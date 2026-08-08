@@ -81,3 +81,76 @@ export async function revokeSession(userId, sessionId) {
   await prisma.session.update({ where: { id: sessionId }, data: { status: 'REVOKED' } });
   logger.info({ action: 'REVOKE_SESSION', userId, sessionId });
 }
+
+export async function submitVerification(userId, data) {
+  const user = await prisma.user.findUnique({
+    where: { id: userId },
+    select: { accountType: true },
+  });
+
+  if (!user) throw Err.notFound('المستخدم غير موجود');
+  if (user.accountType !== 'DOCTOR' && user.accountType !== 'SPECIALIST') {
+    throw Err.forbidden('طلب التوثيق متاح للأطباء والمختصين فقط');
+  }
+
+  const existing = await prisma.doctorVerification.findUnique({ where: { userId } });
+  
+  if (existing && existing.status === 'PENDING_REVIEW') {
+    throw Err.conflict('لديك طلب توثيق قيد المراجعة بالفعل');
+  }
+
+  const verification = await prisma.doctorVerification.upsert({
+    where: { userId },
+    update: {
+      ...data,
+      status: 'PENDING_REVIEW',
+      submittedAt: new Date(),
+    },
+    create: {
+      userId,
+      ...data,
+      status: 'PENDING_REVIEW',
+    },
+  });
+
+  logger.info({ action: 'SUBMIT_VERIFICATION', userId });
+  return verification;
+}
+
+export async function getDoctors({ wilaya, specialty, page = 1, limit = 12 } = {}) {
+  const skip = (page - 1) * limit;
+
+  const where = {
+    accountType: { in: ['DOCTOR', 'SPECIALIST'] },
+    status: 'ACTIVE',
+    doctorVerification: { status: 'VERIFIED' },
+  };
+
+  if (wilaya) where.profile = { wilaya };
+
+  const [doctors, total] = await Promise.all([
+    prisma.user.findMany({
+      where,
+      select: {
+        id: true,
+        fullName: true,
+        accountType: true,
+        profile: { select: { wilaya: true, avatarUrl: true } },
+        doctorVerification: { select: { specialty: true, institution: true } },
+      },
+      skip,
+      take: limit,
+      orderBy: { fullName: 'asc' },
+    }),
+    prisma.user.count({ where }),
+  ]);
+
+  // Client-side specialty filter (stored as free-text)
+  const filtered = specialty
+    ? doctors.filter(d =>
+        d.doctorVerification?.specialty?.toLowerCase().includes(specialty.toLowerCase())
+      )
+    : doctors;
+
+  return { doctors: filtered, total, page, limit };
+}
