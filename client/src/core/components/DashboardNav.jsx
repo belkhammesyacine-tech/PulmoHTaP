@@ -28,36 +28,22 @@ export default function DashboardNav() {
         <Link to="/records" className="btn-link" style={{ fontSize: 14 }}>
           {t('nav.records')}
         </Link>
-<<<<<<< HEAD
         <Link to="/chat" className="btn-link" style={{ fontSize: 14 }}>
           💬 {t('nav.chat')}
         </Link>
         {(isPatient || isDoctor) && (
           <Link to="/find-doctor" className="btn-link" style={{ fontSize: 14 }}>
             🔍 {t('nav.find_doctor')}
-=======
-        {(isPatient || isDoctor) && (
-          <Link to="/find-doctor" className="btn-link" style={{ fontSize: 14 }}>
-            🔍 أطباء
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
           </Link>
         )}
         {isDoctor && (
           <Link to="/verify-doctor" className="btn-link" style={{ fontSize: 14 }}>
-<<<<<<< HEAD
             🔖 {t('nav.verify_doctor')}
-=======
-            🔖 توثيق
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
           </Link>
         )}
         {isAdmin && (
           <Link to="/admin" className="btn-link" style={{ fontSize: 14 }}>
-<<<<<<< HEAD
             ⚙️ {t('nav.admin')}
-=======
-            ⚙️ الإدارة
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
           </Link>
         )}
         <Link to="/profile" className="btn-link" style={{ fontSize: 14 }}>

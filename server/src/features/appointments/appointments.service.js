@@ -21,7 +21,6 @@ export const createAppointment = async (patientId, data) => {
     },
   });
 
-<<<<<<< HEAD
   // Notify the doctor about the new appointment request
   await createNotification(data.doctorId, {
     title: 'موعد جديد 📅',
@@ -30,8 +29,6 @@ export const createAppointment = async (patientId, data) => {
     link: '/appointments',
   });
 
-=======
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
   return appointment;
 };
 

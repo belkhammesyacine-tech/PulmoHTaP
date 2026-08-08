@@ -24,7 +24,6 @@
 4. **تجديد الجلسة (`POST /api/auth/refresh`)**: تجديد تلقائي آمن دون مقاطعة المستخدم عند انتهاء AccessToken.
 5. **استعادة كلمة المرور (`POST /api/auth/forgot-password` & `reset-password`)**: حماية الحسابات من الفحص -> إرسال رابط آمن -> إعادة تعيين كلمة المرور وإلغاء جميع الجلسات القديمة.
 6. **إدارة الجلسات والملف الشخصي (`/api/users/me`)**: تحديث بيانات 58 ولاية جزائرية، إنهاء الجلسات المحددة أو جميع الجلسات الأخرى.
-<<<<<<< HEAD
 7. **توثيق الأطباء (`DoctorVerification`)**: رفع بيانات الرخصة والمؤسسة + مرفق (PDF/صورة) عبر Supabase Storage -> مراجعة من الإدارة.
 8. **البحث عن الأطباء (`GET /api/doctors`)**: فلترة الأطباء الموثقين بالولاية أو التخصص + حجز موعد مباشر من نتائج البحث.
 9. **المواعيد (`/api/appointments`)**: المريض يحجز موعداً اختياراً الطبيب + التاريخ + سبب الزيارة. الطبيب يقبل/يرفض/ينهي الموعد. مع إشعار تلقائي.
@@ -32,11 +31,6 @@
 11. **الإشعارات (`/api/notifications`)**: إشعارات داخلية فورية عند تغيير حالة المواعيد. جرس إشعارات في الـ Navbar.
 12. **المحادثات الفورية (`Socket.io`)**: دردشة مباشرة بين المريض وطبيبه. مؤشر كتابة + حالة الاتصال.
 13. **لوحة الإدارة (`/api/admin`)**: إحصاءات المنصة الشاملة + مراجعة وقبول/رفض طلبات توثيق الأطباء.
-=======
-7. **توثيق الأطباء (`DoctorVerification`)**: هيكل جاهز لرفع المراجعات والوثائق المهنية للأطباء والمختصين.
-8. **البحث عن الأطباء والمواعيد**: إمكانية بحث المريض عن طبيب بالولاية والتخصص، وحجز موعد.
-9. **السجلات الطبية والإشعارات**: إضافة سجلات من طرف الأطباء وتلقي إشعارات داخلية عند تغير حالة المواعيد.
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 
 ---
 
@@ -45,11 +39,7 @@
 PulmoHTaP4/
 ├── server/
 │   ├── prisma/
-<<<<<<< HEAD
 │   │   └── schema.prisma        (User, UserProfile, Session, EmailVerification, PasswordReset, DoctorVerification, AuditLog, Wilaya [58], Appointment, MedicalRecord, Notification, ChatMessage)
-=======
-│   │   └── schema.prisma        (User, UserProfile, Session, EmailVerification, PasswordReset, DoctorVerification, AuditLog, Wilaya [58], Appointment, MedicalRecord, Notification)
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 │   └── src/
 │       ├── core/                (prisma, token, email, logger, AppError, authenticate, authorize, validate, rateLimiter)
 │       └── features/
@@ -58,13 +48,9 @@ PulmoHTaP4/
 │           ├── appointments/    (service, controller, routes, schema)
 │           ├── records/         (service, controller, routes, schema)
 │           ├── admin/           (service, controller, routes)
-<<<<<<< HEAD
 │           ├── notifications/   (service, controller, routes)
 │           ├── uploads/         (controller, routes) — Supabase Storage
 │           └── chat/            (service, controller, routes, socket)
-=======
-│           └── notifications/   (service, controller, routes)
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 └── client/
     └── src/
         ├── core/
@@ -77,35 +63,22 @@ PulmoHTaP4/
         └── features/
             ├── landing/         (LandingPage — صفحة رئيسية طبية RTL)
             ├── auth/            (LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, VerifyEmailPage, DashboardPage, ProfilePage, SessionsPage)
-<<<<<<< HEAD
             ├── appointments/    (AppointmentsPage — حجز + قبول/رفض/إنهاء)
             ├── records/         (RecordsPage — إضافة/عرض/طباعة, PrintRecordPage)
             ├── users/           (DoctorVerificationPage, FindDoctorPage)
             ├── chat/            (ChatPage — Socket.io real-time)
             └── admin/           (AdminDashboardPage — إحصاءات + توثيق)
-=======
-            ├── appointments/    (AppointmentsPage)
-            ├── records/         (RecordsPage)
-            ├── users/           (DoctorVerificationPage, FindDoctorPage)
-            └── admin/           (AdminDashboardPage)
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 ```
 
 ---
 
 ## [ORPHANS & PENDING]
-<<<<<<< HEAD
 - `[x]` إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.
 - `[x]` إضافة نموذج Notification عند تغيير حالة الموعد في `appointments.service.js` (استدعاء `createNotification`).
-=======
-- `[ ]` إضافة كلمة سر قاعدة بيانات Supabase النهائية ورمز Gmail App Password في ملف `.env`.
-- `[ ]` تفعيل رفع وثائق الأطباء الفعلية (Document Upload) وربطها بـ Supabase Storage أو غيره.
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 
 ## [UI_DESIGN]
 - **الثيم**: Teal طبي (#0d9488) — glassmorphism — RTL عربي — Dark/Light mode
 - **الصفحة الرئيسية** (`/`): Hero + شريط بحث سريع (ولاية/نوع حساب) + من نحن + أنواع الحسابات + إحصائيات + خدمات + Footer CTA
-<<<<<<< HEAD
 - **المسارات**: `/` عامة | `/login` `/register` ضيف | `/dashboard` `/profile` `/sessions` `/appointments` `/records` `/find-doctor` `/chat` `/verify-doctor` `/admin` محمية
 - **i18n**: عربي (RTL) + فرنسي (LTR) — قابل للتوسع
 
@@ -122,7 +95,3 @@ PulmoHTaP4/
 - ✅ لوحة إدارة (إحصاءات شاملة + مراجعة طلبات التوثيق)
 - ✅ دعم اللغتين (عربي RTL + فرنسي)
 - ✅ وضع مظلم/مضيء
-=======
-- **المسارات**: `/` عامة | `/login` `/register` ضيف | `/dashboard` `/profile` `/sessions` `/appointments` `/records` `/find-doctor` محمية
-
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d

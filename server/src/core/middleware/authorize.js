@@ -8,7 +8,7 @@ export function authorize(allowedRoles = []) {
     }
 
     // إذا كان الدور الخاطئ أو غير مجاز
-    if (allowedRoles.length && !allowedRoles.includes(req.user.accountType)) {
+    if (allowedRoles.length && !allowedRoles.includes(req.user.type)) {
       return next(Err.forbidden('ليس لديك الصلاحيات الكافية للوصول لهذا العنصر'));
     }
 

@@ -14,11 +14,8 @@ import appointmentsRoutes from './features/appointments/appointments.routes.js';
 import recordsRoutes from './features/records/records.routes.js';
 import adminRoutes from './features/admin/admin.routes.js';
 import notificationsRoutes from './features/notifications/notifications.routes.js';
-<<<<<<< HEAD
 import uploadsRoutes from './features/uploads/uploads.routes.js';
 import chatRoutes from './features/chat/chat.routes.js';
-=======
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 
 const app = express();
 
@@ -55,11 +52,8 @@ app.use('/api/appointments', appointmentsRoutes);
 app.use('/api/records', recordsRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/notifications', notificationsRoutes);
-<<<<<<< HEAD
 app.use('/api/upload', uploadsRoutes);
 app.use('/api/chat', chatRoutes);
-=======
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
 
 // ── 404 Handler ────────────────────────────────
 app.use((_req, _res, next) => {

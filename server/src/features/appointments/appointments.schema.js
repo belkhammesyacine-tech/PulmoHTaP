@@ -3,7 +3,9 @@ import { z } from 'zod';
 
 export const createAppointmentSchema = z.object({
   doctorId: z.string().min(1, 'معرف الطبيب مطلوب'),
-  date: z.string().datetime('تاريخ الموعد غير صالح'),
+  date: z.string().refine((val) => !Number.isNaN(Date.parse(val)), {
+    message: 'تاريخ الموعد غير صالح',
+  }),
   reason: z.string().optional(),
 });
 

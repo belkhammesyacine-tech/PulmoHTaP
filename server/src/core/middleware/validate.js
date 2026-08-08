@@ -9,7 +9,8 @@ export function validate(schema) {
       next();
     } catch (err) {
       if (err instanceof ZodError) {
-        const messages = err.errors.map((e) => `${e.path.join('.')}: ${e.message}`).join(' | ');
+        const issues = err.issues ?? err.errors ?? [];
+        const messages = issues.map((e) => `${e.path.join('.')}: ${e.message}`).join(' | ');
         return next(new AppError(messages, 400, 'VALIDATION_ERROR'));
       }
       next(err);

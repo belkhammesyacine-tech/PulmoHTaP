@@ -1,5 +1,4 @@
 {
-<<<<<<< HEAD
   "hero": {
     "eyebrow": "La première plateforme médicale",
     "title": "Votre santé",
@@ -12,40 +11,10 @@
     "searchWilayaAll": "— Toutes les wilayas —",
     "searchType": "Type de compte",
     "searchTypeAll": "— Choisissez —",
-=======
-  "nav": {
-    "home": "Accueil",
-    "about": "À propos",
-    "services": "Services",
-    "accounts": "Types de comptes",
-    "contact": "Contact",
-    "dashboard": "Tableau de bord",
-    "login": "Connexion",
-    "register": "Créer un compte",
-    "logout": "Déconnexion",
-    "profile": "Mon profil",
-    "sessions": "Sessions actives",
-    "appointments": "Rendez-vous",
-    "records": "Dossiers médicaux"
-  },
-  "hero": {
-    "eyebrow": "PulmoHTapAlgérie",
-    "title": "Votre santé, notre priorité",
-    "titleAccent": "un avenir meilleur",
-    "subtitle": "Plateforme intégrée de suivi des patients atteints d'hypertension pulmonaire en Algérie",
-    "badge1": "🛡️ Qualité certifiée",
-    "badge2": "🔬 Suivi médical intelligent",
-    "badge3": "❤️ Le patient avant tout",
-    "searchWilaya": "Wilaya",
-    "searchWilayaAll": "Toutes les wilayas (58)",
-    "searchType": "Type de compte",
-    "searchTypeAll": "Tous les types",
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
     "searchBtn": "Commencer"
   },
   "about": {
     "eyebrow": "À propos",
-<<<<<<< HEAD
     "title": "Soins de santé intégrés",
     "titleAccent": "à portée de main",
     "desc": "Nous facilitons l'accès des patients aux meilleurs spécialistes en pneumologie et cardiologie, et fournissons un environnement numérique sécurisé.",
@@ -259,67 +228,5 @@
     "view_document": "Voir le document joint",
     "btn_accept": "✓ Accepter",
     "btn_reject": "✕ Rejeter"
-=======
-    "title": "Engagés pour la qualité,",
-    "titleAccent": "dédiés à la vie",
-    "desc": "PulmoHTapAlgérie est l'infrastructure unifiée pour le suivi des patients atteints d'HTAP. Nous offrons un système de comptes intégré reliant patients, médecins, laboratoires, pharmacies et chercheurs sur une seule plateforme sécurisée, avec un support complet en arabe et les 58 wilayas algériennes.",
-    "cta": "En savoir plus →"
-  },
-  "accounts": {
-    "title": "Types de comptes",
-    "desc": "Rejoignez-nous en tant que patient, médecin, spécialiste, laboratoire, pharmacie, psychologue, chercheur ou administrateur d'établissement de santé"
-  },
-  "stats": {
-    "title": "Pourquoi PulmoHTapAlgérie?",
-    "subtitle": "Infrastructure unifiée — prête pour les modules médicaux à venir"
-  },
-  "services": {
-    "title": "Services disponibles",
-    "desc": "Le système de comptes unifié est complet — les futurs modules médicaux utiliseront immédiatement votre identité actuelle"
-  },
-  "footer": {
-    "cta": "Prêt à commencer?",
-    "ctaDesc": "Créez votre compte gratuitement et profitez de la plateforme",
-    "ctaBtn": "S'inscrire gratuitement",
-    "copy": "© 2026 PulmoHTapAlgérie — Tous droits réservés"
-  },
-  "auth": {
-    "loginTitle": "Bienvenue",
-    "loginSubtitle": "Connectez-vous pour continuer",
-    "email": "Adresse e-mail",
-    "password": "Mot de passe",
-    "confirmPassword": "Confirmer le mot de passe",
-    "fullName": "Nom complet",
-    "phone": "Numéro de téléphone",
-    "wilaya": "Wilaya",
-    "accountType": "Type de compte",
-    "loginBtn": "Se connecter",
-    "registerBtn": "Créer un compte",
-    "forgotPassword": "Mot de passe oublié?",
-    "noAccount": "Pas encore de compte?",
-    "hasAccount": "Vous avez déjà un compte?",
-    "registerLink": "S'inscrire",
-    "loginLink": "Se connecter",
-    "forgotTitle": "Récupération du mot de passe",
-    "forgotSubtitle": "Entrez votre e-mail pour recevoir un lien de récupération",
-    "sendLink": "Envoyer le lien",
-    "backToLogin": "Retour à la connexion"
-  },
-  "dashboard": {
-    "welcome": "Bonjour,",
-    "subtitle": "Bienvenue sur votre tableau de bord PulmoHTapAlgérie",
-    "appointments": "Gestion des rendez-vous",
-    "records": "Dossiers médicaux",
-    "noAppointments": "Aucun rendez-vous pour le moment.",
-    "noRecords": "Aucun dossier médical pour le moment."
-  },
-  "theme": {
-    "dark": "Mode sombre",
-    "light": "Mode clair"
-  },
-  "lang": {
-    "ar": "العربية",
-    "fr": "Français"
->>>>>>> 7c250262aee13c69b171f965798c62acb3babb6d
   }
 }

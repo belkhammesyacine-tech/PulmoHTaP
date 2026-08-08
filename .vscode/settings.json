@@ -1,3 +1,8 @@
 {
-    "Codegeex.RepoIndex": true
+  "css.validate": false,
+  "less.validate": false,
+  "scss.validate": false,
+  "tailwindCSS.experimental.classRegex": [
+    "class:\\s*?[\"'`]([^\"'`]*).*?,"
+  ]
 }

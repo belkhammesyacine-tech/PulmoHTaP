@@ -4,10 +4,10 @@ import { AppError } from '../../core/errors/AppError.js';
 
 export const createRecord = async (req, res, next) => {
   try {
-    if (!['DOCTOR', 'SPECIALIST'].includes(req.user.accountType)) {
+    if (!['DOCTOR', 'SPECIALIST'].includes(req.user.type)) {
       throw new AppError('فقط الأطباء يمكنهم إضافة سجلات طبية', 403);
     }
-    const record = await recordsService.createRecord(req.user.id, req.body);
+    const record = await recordsService.createRecord(req.user.sub, req.body);
     res.status(201).json({ message: 'تم إنشاء السجل بنجاح', record });
   } catch (error) {
     next(error);
@@ -16,7 +16,7 @@ export const createRecord = async (req, res, next) => {
 
 export const getRecords = async (req, res, next) => {
   try {
-    const records = await recordsService.getUserRecords(req.user.id, req.user.accountType);
+    const records = await recordsService.getUserRecords(req.user.sub, req.user.type);
     res.json({ records });
   } catch (error) {
     next(error);
@@ -25,7 +25,7 @@ export const getRecords = async (req, res, next) => {
 
 export const getRecord = async (req, res, next) => {
   try {
-    const record = await recordsService.getRecordById(req.user.id, req.params.id, req.user.accountType);
+    const record = await recordsService.getRecordById(req.user.sub, req.params.id, req.user.type);
     res.json({ record });
   } catch (error) {
     next(error);
@@ -34,10 +34,10 @@ export const getRecord = async (req, res, next) => {
 
 export const updateRecord = async (req, res, next) => {
   try {
-    if (!['DOCTOR', 'SPECIALIST'].includes(req.user.accountType)) {
+    if (!['DOCTOR', 'SPECIALIST'].includes(req.user.type)) {
       throw new AppError('فقط الأطباء يمكنهم تعديل السجلات الطبية', 403);
     }
-    const record = await recordsService.updateRecord(req.user.id, req.params.id, req.body);
+    const record = await recordsService.updateRecord(req.user.sub, req.params.id, req.body);
     res.json({ message: 'تم تحديث السجل بنجاح', record });
   } catch (error) {
     next(error);

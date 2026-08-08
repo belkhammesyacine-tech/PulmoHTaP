@@ -8,7 +8,14 @@ export function authenticate(req, _res, next) {
 
   const token = header.slice(7);
   try {
-    req.user = verifyAccessToken(token);
+    const decoded = verifyAccessToken(token);
+    req.user = {
+      ...decoded,
+      id: decoded.sub ?? decoded.id,
+      sub: decoded.sub ?? decoded.id,
+      accountType: decoded.type ?? decoded.accountType,
+      type: decoded.type ?? decoded.accountType,
+    };
     next();
   } catch {
     next(Err.unauthorized('انتهت صلاحية الجلسة، يُرجى تسجيل الدخول مجدداً'));
